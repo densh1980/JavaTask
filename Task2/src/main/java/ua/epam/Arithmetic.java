@@ -15,6 +15,7 @@ public class Arithmetic {
     }
 
     public double div(double value1, double value2){
+        if(value2 == 0) throw new ArithmeticException();
         return  value1 / value2;
     }
 }
