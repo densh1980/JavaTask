@@ -41,5 +41,9 @@ public class ArithmeticTest {
     public void testDivByZero(){
          a.div(10.0,0.0);
     }
+    @Test(timeout = 1000)
+    public void timeTest(){
+
+    }
 
 }
