@@ -1,9 +1,6 @@
 package ua.epam;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import static org.junit.Assert.*;
 
@@ -24,7 +21,7 @@ public class ArithmeticTest {
     }
 
 
-
+    @Ignore
     @Test
     public void testDeduct() throws Exception {
         double res =a.deduct(3,7);
