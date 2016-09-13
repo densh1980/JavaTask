@@ -2,6 +2,7 @@ package ua.epam;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -9,10 +10,10 @@ import static org.junit.Assert.*;
 
 public class ArithmeticTest {
 
-    private Arithmetic a;
+    private static Arithmetic a;
 
-    @Before
-    public  void runT() {
+    @BeforeClass
+    public static  void runT() {
         a = new Arithmetic();
     }
 
