@@ -1,6 +1,7 @@
 package ua.epam;
 
 import org.junit.*;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +9,8 @@ import static org.junit.Assert.*;
 public class ArithmeticTest {
 
     private static Arithmetic a;
+    @Rule
+    public final ExpectedException exp = ExpectedException.none();
 
     @BeforeClass
     public static  void runT() {
@@ -37,13 +40,15 @@ public class ArithmeticTest {
         double res =a.div(10,3);
         Assert.assertEquals(3.3,res, 0.04);
     }
-    @Test(expected = ArithmeticException.class )
+    @Test
     public void testDivByZero(){
-         a.div(10.0,0.0);
+        exp.expect(ArithmeticException.class);
+        a.div(10.0,0.0);
     }
     @Test(timeout = 1000)
     public void timeTest(){
 
     }
+
 
 }
