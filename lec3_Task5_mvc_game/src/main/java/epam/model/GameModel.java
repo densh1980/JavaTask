@@ -10,17 +10,9 @@ public class GameModel {
     private final static int MAX = 99;
     private final static int MIN = 1;
 
-
-
     // left hand and right hand boundaries
     private int lha;
-
-
-
     private int rha;
-
-
-
 
     // number can be guessed
     private int number;
@@ -36,23 +28,29 @@ public class GameModel {
         gameLog = new ArrayList();
     }
 
-    public boolean testUserNumber(int userNumber) {
+    public int testUserNumber(int userNumber) {
+        //  -1 less  1 more 0 guess
+        int result = 0;
 
         gameLog.add(userNumber);
 
         if (userNumber == number) {
             gameStatus = GameStatus.WIN;
-            return true;
+            return result;
+
         } else if (userNumber > number) {
             rha = userNumber - 1;
-        } else lha = userNumber + 1;
+            result = 1;
+        } else {
+            lha = userNumber + 1;
+            result = -1;
+        }
 
         //if interval reduce to one number
         if (lha == rha) {
             gameStatus = GameStatus.FINISHED;
-            return true;
         }
-        return false;
+        return result;
     }
 
     public int getTryNumber() {
@@ -84,7 +82,9 @@ public class GameModel {
         gameStatus = GameStatus.STOP;
     }
 
-    private int randInt(int min, int max) {
+
+    // randInt must be private !!! for model TEST  make it  public
+    public int randInt(int min, int max) {
 
         Random rand = new Random();
         return rand.nextInt((max - min) + 1) + min;
@@ -99,5 +99,4 @@ public class GameModel {
         return rha;
     }
 
-    public static enum GameStatus { WIN,IN_PROGRESS,STOP,FINISHED}
 }
