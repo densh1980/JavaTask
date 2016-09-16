@@ -1,4 +1,4 @@
-package ua.epam;
+﻿package ua.epam;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class GuessNumberGame {
 
-    //default game  from 0 to 100
-    private final static int MAX = 100;
-    private final static int MIN = 0;
+    //default game  from 1 to 99
+    private final static int MAX = 99;
+    private final static int MIN = 1;
     private GameStatus gameStatus;
     private ArrayList gameLog = new ArrayList();
 
