@@ -30,13 +30,14 @@ public class GameModel {
 
     public int testUserNumber(int userNumber) {
         //  -1 less  1 more 0 guess
-        int result = 0;
+        int result;
 
-        gameLog.add(userNumber);
+        // write log  only if game is still running
+        if(gameStatus == GameStatus.IN_PROGRESS) gameLog.add(userNumber);
 
         if (userNumber == number) {
             gameStatus = GameStatus.WIN;
-            return result;
+            return result = 0;
 
         } else if (userNumber > number) {
             rha = userNumber - 1;
@@ -46,7 +47,7 @@ public class GameModel {
             result = -1;
         }
 
-        //if interval reduce to one number
+        //in case then interval reduce to one number finish game
         if (lha == rha) {
             gameStatus = GameStatus.FINISHED;
         }
@@ -92,9 +93,11 @@ public class GameModel {
     public int getNumber() {
         return number;
     }
+
     public int getLeft() {
         return lha;
     }
+
     public int getRight() {
         return rha;
     }

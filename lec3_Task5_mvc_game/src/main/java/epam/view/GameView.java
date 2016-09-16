@@ -1,13 +1,12 @@
 package epam.view;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class GameView {
 
     public static final String MORE_MSG = "Больше ...";
     public static final String LESS_MSG = "Меньше ...";
-    public static final String WRONG_RANGE_MSG_D_D = "Должно быть число в диапазоне: [%d,%d]";
+    public static final String WRONG_RANGE_MSG_D_D = "Должно быть число в диапазоне: [%d,%d] \n";
     public static final String TRY_N_MSG = " Попытка №%d число - %d \n";
     public static final String PRINT_HISTORY_MSG = "История ходов :";
     public static final String NUMBER_MSG = "Загаданное число :";
@@ -15,44 +14,31 @@ public class GameView {
     public static final String GAME_BREACK_MSG = "Игра прервана ..";
     public static final String GAME_FINISHED_MSG = "Игра окончена. Интервал уменьшился до одного числа";
     public static final String MUST_BE_NUMBER = "Должно быть число. Повторите ввод :";
-    public static final String QUIT_KEY = "q";
     public static final String TRY_MSG = "Ведите число в интервале [%d,%d]  или q  для окончания игры : ";
     public static final String TRY_COUNT = "Попытка № %d \n";
-//    private Scanner sc;
-//    public  GameView(){
-//        sc = new Scanner(System.in);
-//    }
+
 
     public void showTryWelcomeMsg(int tryNumber,int left,int right ){
         printMsg(TRY_COUNT,tryNumber);
         printMsg(TRY_MSG,left,right);
     }
-//    public Integer readConsoleInput(){
-//        Integer result;
-//        while (true) {
-//            if (sc.hasNext(QUIT_KEY)) return null;
-//            if (!sc.hasNextInt()) {
-//                sc.next();
-//                printMsg(MUST_BE_NUMBER);
-//                continue;
-//            }
-//            result  = sc.nextInt();
-//            break;
-//        }
-//        return result;
-//    }
+
     public void showFinishedMsg(){
         printMsg(GAME_FINISHED_MSG);
     }
+
     public  void showQuitMsg(){
         printMsg(GAME_BREACK_MSG);
     }
+
     public void showWinMsg(){
         printMsg(GREETINGS_MSG);
     }
+
     public void showNumber(int number){
         printMsg(NUMBER_MSG + number);
     }
+
     public void showHistory(ArrayList gameLog) {
         printMsg(PRINT_HISTORY_MSG);
         for (int i = 0; i < gameLog.size(); i++) {
@@ -63,9 +49,11 @@ public class GameView {
     public void inputOutOfRangeMsg(int left,int right){
         printMsg(WRONG_RANGE_MSG_D_D,left,right);
     }
+
     public void showLessMsg(){
         printMsg(LESS_MSG);
     }
+
     public void showMoreMsg(){
         printMsg(MORE_MSG);
     }
@@ -77,9 +65,11 @@ public class GameView {
     public void printMsg(String str){
         System.out.println(str);
     }
+
     public void printMsg(String str,int arg){
         System.out.printf(str,arg);
     }
+
     public  void printMsg(String str,int arg1,int arg2){
         System.out.printf(str,arg1,arg2);
     }

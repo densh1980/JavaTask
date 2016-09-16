@@ -1,6 +1,5 @@
 package epam.controller;
 
-
 import epam.model.GameModel;
 import epam.model.GameStatus;
 import epam.view.GameView;
@@ -20,29 +19,14 @@ public class GameController {
 
     public void run() {
         boolean flag = true;
-        point: //main game loop
 
+        point:
+        //main game loop
         do {
             switch (model.getGameStatus()) {
 
                 case IN_PROGRESS:
-                    view.showTryWelcomeMsg(model.getTryNumber(), model.getLeft(),model.getRight());
-                    Integer input = readConsoleInput();
-                    if (input == null) model.setGameStatus(GameStatus.STOP);
-                    else if (!checkIfUserInputInRange(input, model.getLeft(), model.getRight())) {
-                        view.inputOutOfRangeMsg(model.getLeft(), model.getRight());
-                    } else {
-                        switch (model.testUserNumber(input)){
-                            case -1: //less case
-                                view.showLessMsg();
-                                break;
-                            case 1: // more case
-                                view.showMoreMsg();
-                                break;
-                            default:
-                        };
-                    }
-                    ;
+                    gameBeat();
                     continue point;
 
                 case STOP:
@@ -60,8 +44,34 @@ public class GameController {
             }
         } while (flag);
 
+        printGameHistory();
+    }
+
+    private void printGameHistory() {
         view.showNumber(model.getNumber());
         view.showHistory(model.getGameLog());
+    }
+
+    // perform attempt to guess
+    private void gameBeat() {
+        view.showTryWelcomeMsg(model.getTryNumber(), model.getLeft(), model.getRight());
+        Integer input = readConsoleInput();
+        if (input == null) model.setGameStatus(GameStatus.STOP);
+        else if (!checkIfUserInputInRange(input, model.getLeft(), model.getRight())) {
+            view.inputOutOfRangeMsg(model.getLeft(), model.getRight());
+        } else {
+            switch (model.testUserNumber(input)) {
+                case -1: //less case
+                    view.showLessMsg();
+                    break;
+                case 1: // more case
+                    view.showMoreMsg();
+                    break;
+                default:
+            }
+            ;
+        }
+        ;
     }
 
     private boolean checkIfUserInputInRange(int input, int left, int right) {
@@ -71,7 +81,8 @@ public class GameController {
         }
         return true;
     }
-    public Integer readConsoleInput(){
+
+    public Integer readConsoleInput() {
         Integer result;
         while (true) {
             if (sc.hasNext("q")) return null;
@@ -80,7 +91,7 @@ public class GameController {
                 view.showMustBeNumer();
                 continue;
             }
-            result  = sc.nextInt();
+            result = sc.nextInt();
             break;
         }
         return result;
