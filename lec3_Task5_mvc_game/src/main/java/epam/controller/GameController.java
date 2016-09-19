@@ -56,6 +56,7 @@ public class GameController {
     private void gameBeat() {
         view.showTryWelcomeMsg(model.getTryNumber(), model.getLeft(), model.getRight());
         Integer input = readConsoleInput();
+        //if 'quit' stop game
         if (input == null) model.setGameStatus(GameStatus.STOP);
         else if (!checkIfUserInputInRange(input, model.getLeft(), model.getRight())) {
             view.inputOutOfRangeMsg(model.getLeft(), model.getRight());

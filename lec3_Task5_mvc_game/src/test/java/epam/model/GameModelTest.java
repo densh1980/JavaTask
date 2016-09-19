@@ -1,14 +1,9 @@
 package epam.model;
 
-import com.sun.javafx.sg.prism.NGShape;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.Random;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Denys_Shmyhin on 9/16/2016.
