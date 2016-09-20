@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -8,6 +11,14 @@ public class Main {
         System.out.println(ep1.equals(ep3));
         System.out.println(ep2.equals(ep3));
         System.out.println(ep3.equals(ep2));
+
+        String[] asd = {"asd","zxc","qwe"};
+        Arrays.stream(asd).map(s -> s + "dfgd")
+                            .forEach(s -> {
+                                System.out.println(s);
+                            });
+
+
     }
 
 }
