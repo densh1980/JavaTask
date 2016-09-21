@@ -3,11 +3,13 @@ package phonebook.controller;
 import phonebook.model.Address;
 import phonebook.model.CallerGroup;
 import phonebook.model.PhoneBookRecord;
+import phonebook.view.PhoneBookView;
 
 import java.util.Scanner;
 
 /**
- * Created by Denys_Shmyhin on 9/20/2016.
+ *@param
+ * @Created by Denys_Shmyhin on 9/20/2016.
  */
 
 public class PhoneBookController {
@@ -16,87 +18,84 @@ public class PhoneBookController {
     public static final String CALLER_GROUP_TEMPLATE = "(FAMILY)|(FRIENDS)|(WORK)|(EMERGENCY)";
 
     PhoneBookRecord record;
+    PhoneBookView view;
+    
     Scanner sc =  new Scanner(System.in);
 
 
-    public PhoneBookController(PhoneBookRecord record){
+    public PhoneBookController(PhoneBookRecord record,PhoneBookView view){
         this.record = record;
+        this.view = view;
     }
     public void run(){
         String input;
         do {
-            showInputMsg("Фамилия абонента");
+            view.showInputMsg("Фамилия абонента");
             input = getInputValue();
         } while (!validate(input, TEXT_PATERN));
         record.setFirstName(input);
 
         do {
-            showInputMsg("Имя абонента");
+            view.showInputMsg("Имя абонента");
             input = getInputValue();
         } while (!validate(input, TEXT_PATERN));
         record.setLastName(input);
 
         do {
-            showInputMsg("Отчество абонента");
+            view.showInputMsg("Отчество абонента");
             input = getInputValue();
         } while (!validate(input, TEXT_PATERN));
         record.setMiddleName(input);
         do {
-            showInputMsg("Никнейм");
+            view.showInputMsg("Никнейм");
             input = getInputValue();
         } while (!validate(input, TEXT_PATERN));
         record.setNickName(input);
 
         do {
-            showInputMsg("Комментарий");
+            view.showInputMsg("Комментарий");
             input = getInputValue();
         } while (!validate(input, TEXT_PATERN));
         record.setDescription(input);
 
         do {
-            showInputMsg("Комментарий");
-            input = getInputValue();
-        } while (!validate(input, TEXT_PATERN));
-        record.setDescription(input);
-
-        do {
-            showInputMsg("Группы в которую занесен абонент :FAMILY|FRIENDS|WORK|EMERGENCY");
+            view.showInputMsg("Группы в которую занесен абонент :FAMILY|FRIENDS|WORK|EMERGENCY");
             input = getInputValue();
         } while (!validate(input, CALLER_GROUP_TEMPLATE));
         record.setCallerGroup(CallerGroup.valueOf(input));
 
         do {
-            showInputMsg("Телефон дом");
+            view.showInputMsg("Телефон дом");
             input = getInputValue();
         } while (!validate(input, TEXT_PATERN));
         record.setHomePhone(input);
 
         do {
-            showInputMsg("Телефон моб.");
+            view.showInputMsg("Телефон моб.");
             input = getInputValue();
         } while (!validate(input, TEXT_PATERN));
         record.setPrimaryMobPhone(input);
 
         do {
-            showInputMsg("Телефон моб.2");
+            view.showInputMsg("Телефон моб.2");
             input = getInputValue();
         } while (!validate(input, TEXT_PATERN));
         record.setSeondaryMobPhone(input);
 
         do {
-            showInputMsg("Е-майл");
+            view.showInputMsg("Е-майл");
             input = getInputValue();
         } while (!validate(input, EMAIL_PATTERN));
         record.setEmail(input);
 
         do {
-            showInputMsg("Скайп");
+            view.showInputMsg("Скайп");
             input = getInputValue();
         } while (!validate(input, TEXT_PATERN));
         record.setSkype(input);
 
         do {
-            showInputMsg("Адрес : index,city,street,number");
+            view.showInputMsg("Адрес : index,city,street,number");
             input = getInputValue();
         } while (!validate(input, TEXT_PATERN));
         record.setAddress(new Address(input));
@@ -113,9 +112,7 @@ public class PhoneBookController {
         return sc.nextLine();
     }
 
-    public void showInputMsg(String field){
-        System.out.println(" Введите " + field);
-    }
+    
 
 
 

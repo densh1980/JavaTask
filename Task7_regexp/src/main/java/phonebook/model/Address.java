@@ -9,6 +9,11 @@ public class Address {
     String street;
     String number;
 
+    /**
+     *  @param adr ghjgjhjfg,hmg,mhgm,hjm
+
+     */
+
     public Address(String  adr){
 
         String [] adrArr = adr.split(",");
