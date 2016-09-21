@@ -13,9 +13,11 @@ import java.util.Scanner;
  */
 
 public class PhoneBookController {
-    public static final String TEXT_PATERN = "^[a-z A-Z 0-9]*";
+    public static final String TEXT_PATERN = "^[a-z A-Z 0-9]{1-60}";
     public static final String EMAIL_PATTERN = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b";
     public static final String CALLER_GROUP_TEMPLATE = "(FAMILY)|(FRIENDS)|(WORK)|(EMERGENCY)";
+    public static final String PHONE_PATTERN = "^\\(?\\b([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+    public static final String PHONE_PATTERN_NA = "^\\(?\\b([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$ |^$";
 
     PhoneBookRecord record;
     PhoneBookView view;
@@ -65,21 +67,21 @@ public class PhoneBookController {
         record.setCallerGroup(CallerGroup.valueOf(input));
 
         do {
-            view.showInputMsg("Телефон дом");
+            view.showInputMsg("Телефон дом : (yyy) xxx-xxxx");
             input = getInputValue();
-        } while (!validate(input, TEXT_PATERN));
+        } while (!validate(input, PHONE_PATTERN));
         record.setHomePhone(input);
 
         do {
-            view.showInputMsg("Телефон моб.");
+            view.showInputMsg("Телефон моб. :(yyy) xxx-xxxx ");
             input = getInputValue();
-        } while (!validate(input, TEXT_PATERN));
+        } while (!validate(input, PHONE_PATTERN_NA));
         record.setPrimaryMobPhone(input);
 
         do {
-            view.showInputMsg("Телефон моб.2");
+            view.showInputMsg("Телефон моб.2 :(yyy) xxx-xxxx");
             input = getInputValue();
-        } while (!validate(input, TEXT_PATERN));
+        } while (!validate(input, PHONE_PATTERN_NA));
         record.setSeondaryMobPhone(input);
 
         do {

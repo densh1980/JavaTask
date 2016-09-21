@@ -17,10 +17,10 @@ public class Address {
     public Address(String  adr){
 
         String [] adrArr = adr.split(",");
-        index = adrArr[0];
-        city = adrArr[1];
-        street = adrArr[2];
-        number = adrArr[3];
+        index   = adrArr[0];
+        city    = adrArr[1];
+        street  = adrArr[2];
+        number  = adrArr[3];
 
     }
 
