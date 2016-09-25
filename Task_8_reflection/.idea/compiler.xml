@@ -22,11 +22,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="Task7" />
+        <module name="Task_8_reflection" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Task7" target="1.8" />
+      <module name="Task_8_reflection" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
