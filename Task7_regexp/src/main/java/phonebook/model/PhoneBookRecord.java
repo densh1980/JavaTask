@@ -21,16 +21,12 @@ public class PhoneBookRecord {
     //8.	Телефон моб.
     private String  primaryMobPhone;
     //9.	Телефон моб. 2
-    private String  seondaryMobPhone;
+    private String secondaryMobPhone;
     //10.	Е-майл
     private String email;
     //11.	Скайп
     private String  skype;
-    //12.	Адрес, состоящий из:
-            // - Индекс
-            //- город проживания
-            //- улица
-            //- номер дома
+    //12.	Адрес, состоящий из: // - Индекс //- город проживания //- улица //- номер дома
     private Address address;
 
 
@@ -106,12 +102,12 @@ public class PhoneBookRecord {
         return this;
     }
 
-    public String getSeondaryMobPhone() {
-        return seondaryMobPhone;
+    public String getSecondaryMobPhone() {
+        return secondaryMobPhone;
     }
 
-    public PhoneBookRecord setSeondaryMobPhone(String seondaryMobPhone) {
-        this.seondaryMobPhone = seondaryMobPhone;
+    public PhoneBookRecord setSecondaryMobPhone(String secondaryMobPhone) {
+        this.secondaryMobPhone = secondaryMobPhone;
         return this;
     }
 
