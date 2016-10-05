@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+    <user id="1">
+        <first_name>Vasya</first_name>
+        <last_name>Pupkin</last_name>
+        <phone>333-22-11</phone>
+        <email>vas@ua</email>
+    </user>
+    <user id="2">
+        <first_name>Ivan</first_name>
+        <last_name>Gora</last_name>
+        <phone>111-12-12</phone>
+        <email>i.van@com.ua</email>
+    </user>
+
+    <user id="3">
+        <first_name>Ivan</first_name>
+        <last_name>Kaletnik</last_name>
+        <phone>5555555</phone>
+        <email>ivan@mail.ru</email>
+    </user>
+
+    <user id="4">
+        <first_name>Katya</first_name>
+        <last_name>Garmash</last_name>
+        <phone>(050)984-12-12</phone>
+        <email>ket.kit@gmail.com</email>
+    </user>
+
+    <user id="5">
+        <first_name>Helen</first_name>
+        <last_name>Marlen</last_name>
+        <phone>0670005583</phone>
+        <email>Hell@mar.ua</email>
+    </user>
+
+</users>
