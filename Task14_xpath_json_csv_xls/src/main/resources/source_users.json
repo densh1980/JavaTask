@@ -1,43 +1,43 @@
 [
 	{
 		"id" : 1,
-		"first_name" : "Мария",
-		"last_name" : "Шепель",
+		"firstName": "Мария",
+		"lastName": "Шепель",
 		"phone" : "333-22-11",
 		"email" : "asd@com"
 	},
 	{
 		"id" : 2,
-		"first_name" : "Иван",
-		"last_name" : "Сидоренко",
+		"firstName": "Иван",
+		"lastName": "Сидоренко",
 		"phone" : "123-34-55",
 		"email" : "sdf@rrr.ua"
 	},
 	{
 		"id" : 3,
-		"first_name" : "Иван",
-		"last_name" : "Калетник",
+		"firstName": "Иван",
+		"lastName": "Калетник",
 		"phone" : "245-22-99",
 		"email" : "mba@asd.com"
 	},
 	{
 		"id" : 4,
-		"first_name" : "Инна",
-		"last_name" : "Сидоренко",
+		"firstName": "Инна",
+		"lastName": "Сидоренко",
 		"phone" : "678-31-45",
 		"email" : "mba@dsa.ru"
 	},
 	{
 		"id" : 5,
-		"first_name" : "Дмитрий",
-		"last_name" : "Маринин",
+		"firstName": "Дмитрий",
+		"lastName": "Маринин",
 		"phone" : "299-13-19",
 		"email" : "ghj@com"
 	},
 	{
 		"id" : 6,
-		"first_name" : "Jonny",
-		"last_name" : "Black",
+		"firstName": "Jonny",
+		"lastName": "Black",
 		"phone" : "444-13-11",
 		"email" : "new@email.net"
 	}
