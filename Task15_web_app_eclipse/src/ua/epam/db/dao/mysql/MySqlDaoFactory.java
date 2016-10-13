@@ -33,7 +33,7 @@ public class MySqlDaoFactory extends DaoFactory {
                         .class.getResourceAsStream(DB_CONFIG_FILE_NAME);
                 Properties props = new Properties();
                 props.load(in);
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 connection =  DriverManager
                         .getConnection( props.getProperty(DB_URL) ,
                                 props.getProperty(DB_USER),

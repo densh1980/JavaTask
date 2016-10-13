@@ -1,7 +1,6 @@
 package ua.epam.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,58 +15,145 @@ import ua.epam.db.dao.PersistException;
 import ua.epam.db.entities.User;
 
 /**
- * Servlet implementation class ManagmentSysytem
+ * Servlet implementation class App Controller
  */
 
-@WebServlet("/user")
+@WebServlet("/users")
 public class AppController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AppController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
+	public AppController() {
+		super();
+	}
+
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+        request.setCharacterEncoding("utf-8");
 		response.setContentType("text / html;charset=UTF-8");
-        PrintWriter pw = response.getWriter();
-        pw.println("<B> Список пользователей </B>");
-        pw.println("<table border = 1>");
-        try {
-            
-        	GenericDao<User> userDao = DaoFactory.getInstance().createUserDao();
-        	List<User> users = userDao.getAll();
-        	
-        	for (User user : users) {
-				pw.println("<tr>");
-				pw.println("<td>" + user.getFirstName() + "</td>");
-				pw.println("<td>" + user.getLastName() + "</td>");
-				pw.println("<td>" + user.getPhone() + "</td>");
-				pw.println("<td>" + user.getEmail() + "</td>");
-        		pw.println("</tr>");
-			}
-       	
 
-        } catch (PersistException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int action = checkAction(request);
+
+		switch (action) {
+
+		//list of all users
+		case 0:
+			try {
+
+				GenericDao<User> userDao = DaoFactory.getInstance().createUserDao();
+				List<User> users = userDao.getAll();
+
+				request.setAttribute("users", users);
+				getServletContext().getRequestDispatcher("/UsersList.jsp").forward(request, response);
+
+
+			} catch (PersistException e) {
+				e.printStackTrace();
+			}
+			break;
+
+			// redirect to add
+		case 1:	
+
+			User user = new User();
+			request.setAttribute("user", user);
+			getServletContext().getRequestDispatcher("/User.jsp").forward(request, response);
+
+			break;
+
+			// redirect to edit 
+		case 2:	
+
+			try {
+
+				user = DaoFactory.getInstance().createUserDao().
+						getById( Integer.valueOf(request.getParameter("userId")) );
+				request.setAttribute("user", user);
+				getServletContext().getRequestDispatcher("/User.jsp").forward(request, response);				
+
+			} catch (PersistException | NumberFormatException e) {
+				e.printStackTrace();
+			}			
+			break;
+
+			//redirect to users after update or add
+		case 3:
+			response.sendRedirect("./users");
+			break;
+
+		default:
+			break;
 		}
-        pw.println("</table>");
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+
+	private int checkAction(HttpServletRequest request) {
+
+		String command = request.getParameter("command");
+		if(command == null) return 0;
+		if (command.equals("Add")) {
+			return 1;
+		}
+		if (command.equals("Edit")) {
+			return 2;
+		}        
+		if (command.equals("Delete")) {
+			if (request.getParameter("userId") != null) {
+				User s = new User();
+				s.setId(Integer.parseInt(request.getParameter("userId")));
+				try {
+					DaoFactory.getInstance().createUserDao().delete(s);
+				} catch (PersistException e) {
+
+					e.printStackTrace();
+				};
+			}
+			return 0;
+		}
+		if(command.equals("Save")){
+
+			User user = extractUserFromRequest(request);
+
+			if (user.getId() == 0){
+				//new
+				try {
+					DaoFactory.getInstance().createUserDao().persist(user);
+				} catch (PersistException e) {
+
+					e.printStackTrace();
+				}
+
+			} else {
+				//update
+
+				try {
+					DaoFactory.getInstance().createUserDao().update(user);
+				} catch (PersistException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+			return 3;
+		}
+		return 0;
+	}
+
+	private User extractUserFromRequest(HttpServletRequest request) {
+		User  user =new User();
+		user.setId(Integer.valueOf(request.getParameter("userId")));
+		user.setFirstName(request.getParameter("firstName"));
+		user.setLastName(request.getParameter("lastName"));
+		user.setPhone(request.getParameter("phone"));
+		user.setEmail(request.getParameter("email"));
+		return user;
 	}
 
 }
