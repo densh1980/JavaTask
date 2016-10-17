@@ -5,3 +5,14 @@
 #users-table tr.even {background-color: #e1ffc3}
 #users-table tr.odd {background-color: #b2ff8e
 }
+fieldset{
+    border: 1px solid rgb(151, 255, 118);
+    background-color: #97ff76;
+    width: 300px;
+    margin:0;
+}
+.field {clear:both; text-align:right; line-height:25px;}
+label {float:left; padding-right:10px;}
+/*.main {float:left}*/
+.sbm-btn{ margin-top: 5px;}
+h2 {margin-bottom: 10px}

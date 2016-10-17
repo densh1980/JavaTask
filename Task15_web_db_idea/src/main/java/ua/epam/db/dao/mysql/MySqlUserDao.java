@@ -1,5 +1,6 @@
 package ua.epam.db.dao.mysql;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import ua.epam.db.dao.AbstractJDBCDao;
 import ua.epam.db.dao.PersistException;
 import ua.epam.db.entities.User;
@@ -10,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Denys_Shmyhin on 10/4/2016.
@@ -17,8 +19,10 @@ import java.util.List;
 
 public class MySqlUserDao extends AbstractJDBCDao<User> {
 
+    public static final String NOT_EMPTY_CHARASTER_STRING = "(^$|[ ]+)";
+    ;
 
-    public MySqlUserDao(Connection connection) {
+    public MySqlUserDao(Connection connection ) {
         super(connection);
     }
 
@@ -26,8 +30,44 @@ public class MySqlUserDao extends AbstractJDBCDao<User> {
     public User create() throws PersistException {
         User g = new User();
         return persist(g);
+
+    }
+    public  List<User> getBy(Map<String,String> params){
+        List<User> result = new LinkedList<User>();
+
+        if(params.size() == 0) return  result;
+        String sql = getSearchUSersQuery();
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            String val = params.get("firstName");
+            val = val.matches(NOT_EMPTY_CHARASTER_STRING)? "%":val;
+            statement.setString(1,val);
+            val = params.get("lastName");
+            val = val.matches(NOT_EMPTY_CHARASTER_STRING)?"%":val;
+            statement.setString(2,val);
+            val = params.get("phone");
+            val= val.matches(NOT_EMPTY_CHARASTER_STRING)?"%":val;
+            statement.setString(3,val);
+            val = params.get("email");
+            val =val.matches(NOT_EMPTY_CHARASTER_STRING)?"%":val;
+            statement.setString(4, val);
+            ResultSet rs = statement.executeQuery();
+            result = parseResultSet(rs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+       return result;
     }
 
+    public String getSearchUSersQuery(){
+        return "SELECT id, first_name, last_name, phone, email FROM  users WHERE"+
+                " first_name LIKE ?" +
+                " AND last_name LIKE ?" +
+                " AND  phone LIKE ?" +
+                " AND email LIKE ?";
+    }
     @Override
     public String getSelectQuery() {
         return "SELECT id, first_name, last_name, phone, email FROM  users";
@@ -93,4 +133,5 @@ public class MySqlUserDao extends AbstractJDBCDao<User> {
             throw  new PersistException(e);
         }
     }
+
 }

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public abstract class AbstractJDBCDao<T extends Identifier >  implements GenericDao<T> {
 
-    private Connection connection;
+    protected Connection connection;
 
     public AbstractJDBCDao(Connection connection) {
         this.connection = connection;

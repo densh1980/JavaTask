@@ -1,7 +1,0 @@
-@CHARSET "UTF-8";
-#user-container {width: 500px; margin: 0 auto;}
-#users-table {border: 1px;}
-#users-table th {background-color: #ff870a;padding: 3px;}
-#users-table tr.even {background-color: #e1ffc3}
-#users-table tr.odd {background-color: #b2ff8e
-}

@@ -1,7 +1,9 @@
 package ua.epam.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,76 +22,99 @@ import ua.epam.db.entities.User;
 
 @WebServlet("/users")
 public class AppController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 
-	public AppController() {
-		super();
-	}
+    public AppController() {
+        super();
+    }
 
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
-		response.setContentType("text / html;charset=UTF-8");
+        response.setContentType("text / html;charset=UTF-8");
 
-		int action = checkAction(request,response);
+        int action = checkAction(request, response);
 
-		switch (action) {
+        switch (action) {
 
-		//list of all users
-		case 0:
+            //list of all users
+            case 0:
 
-			showUsersList(request, response);
-			break;
+                showUsersList(request, response);
+                break;
 
-			// redirect to add
-		case 1:
+            // redirect to add
+            case 1:
 
-			showAddUserPage(request, response);
-			break;
+                showAddUserPage(request, response);
+                break;
 
-			// redirect to edit 
-		case 2:
-			showEditUserPage(request, response);
-			break;
+            // redirect to edit
+            case 2:
+                showEditUserPage(request, response);
+                break;
+            //redirect to users after update or add
+            case 3:
+                response.sendRedirect("./users");
+                break;
 
-			//redirect to users after update or add
-		case 3:
-			response.sendRedirect("./users");
-			break;
+            case 4:
+                try {
+                    GenericDao<User> userDao = DaoFactory.getInstance().createUserDao();
+                    Map map = request.getParameterMap();
+                    Map <String,String>  params = new HashMap<String,String>();
+                    for (Object key: map.keySet())
+                    {
+                        String keyStr = (String)key;
+                        String value = ((String[]) map.get(keyStr))[0];
+                       params.put(keyStr,value);
+                    }
 
-		default:
-			break;
-		}
+                    List<User> users = userDao.getBy(params);
+                    userDao.close();
+                    request.setAttribute("users", users);
+                    getServletContext().getRequestDispatcher("/UsersList.jsp").forward(request, response);
 
-	}
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-	private void showEditUserPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
+
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    private void showEditUserPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
 
             User user = DaoFactory.getInstance().createUserDao()
-                    .getById( Integer.valueOf(request.getParameter("userId")) );
+                    .getById(Integer.valueOf(request.getParameter("userId")));
             request.setAttribute("user", user);
             getServletContext().getRequestDispatcher("/User.jsp").forward(request, response);
 
         } catch (PersistException | NumberFormatException e) {
             e.printStackTrace();
         }
-	}
+    }
 
-	private void showAddUserPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user = new User();
-		request.setAttribute("user", user);
-		//getServletContext().getRequestDispatcher("/User.jsp").forward(request, response);
+    private void showAddUserPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = new User();
+        request.setAttribute("user", user);
+        //getServletContext().getRequestDispatcher("/User.jsp").forward(request, response);
         request.getRequestDispatcher("/User.jsp").forward(request, response);
-	}
+    }
 
-	private void showUsersList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
+    private void showUsersList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
 
             GenericDao<User> userDao = DaoFactory.getInstance().createUserDao();
             List<User> users = userDao.getAll();
-			userDao.close();
+            userDao.close();
 
 
             request.setAttribute("users", users);
@@ -99,46 +124,50 @@ public class AppController extends HttpServlet {
         } catch (PersistException e) {
             e.printStackTrace();
         }
-	}
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 
-	private int checkAction(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+    private int checkAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String command = request.getParameter("command");
-		if(command == null) return 0;
-		if (command.equals("Add")) {
-			return 1;
-		}
-		if (command.equals("Edit")) {
-			return 2;
-		}        
-		if (command.equals("Delete")) {
-			if (request.getParameter("userId") != null) {
-				User s = new User();
-				s.setId(Integer.parseInt(request.getParameter("userId")));
-				deleteUser(s);
-			}
-			return 0;
-		}
-		if(command.equals("Save")){
+        String command = request.getParameter("command");
+        if (command == null) return 0;
+        if (command.equals("Add")) {
+            return 1;
+        }
+        if (command.equals("Edit")) {
+            return 2;
+        }
+        if (command.equals("Delete")) {
+            if (request.getParameter("userId") != null) {
+                User s = new User();
+                s.setId(Integer.parseInt(request.getParameter("userId")));
+                deleteUser(s);
+            }
+            return 0;
+        }
+        if (command.equals("Save")) {
 
-			User user = extractUserFromRequest(request);
-			if(! validateUserBeforeSave(user,request)){
-                request.setAttribute("user",user);
-                getServletContext().getRequestDispatcher("/User.jsp").forward(request,response);
+            User user = extractUserFromRequest(request);
+            if (!validateUserBeforeSave(user, request)) {
+                request.setAttribute("user", user);
+                getServletContext().getRequestDispatcher("/User.jsp").forward(request, response);
                 return -1;
             }
-			saveUser(user);
-			return 3;
-		}
-		return 0;
-	}
+            saveUser(user);
+            return 3;
+        }
+
+        if (command.equals("Filter")) {
+            return 4;
+        }
+        return 0;
+    }
 
     private boolean validateUserBeforeSave(User user, HttpServletRequest request) {
         final String NAME_PATTERN = "^[\\p{L} -']{1,40}\\z";
@@ -149,46 +178,46 @@ public class AppController extends HttpServlet {
         boolean res = true;
         UserInputAlert alert = new UserInputAlert();
 
-        if (!user.getFirstName().matches(NAME_PATTERN)){
+        if (!user.getFirstName().matches(NAME_PATTERN)) {
             alert.setMessage("First name is wrong");
             alert.toggleFieldToAlert(0);
             res = false;
         }
 
-        if (!user.getLastName().matches(NAME_PATTERN)){
+        if (!user.getLastName().matches(NAME_PATTERN)) {
             alert.setMessage("Last name is wrong");
             alert.toggleFieldToAlert(1);
             res = false;
         }
-        if (!user.getPhone().matches(PHONE_PATTERN)){
+        if (!user.getPhone().matches(PHONE_PATTERN)) {
             alert.setMessage("Phone  number is wrong");
             alert.toggleFieldToAlert(2);
             res = false;
         }
-        if (!user.getEmail().matches(EMAIL_PATTERN)){
+        if (!user.getEmail().matches(EMAIL_PATTERN)) {
             alert.setMessage("Email is wrong");
             alert.toggleFieldToAlert(3);
             res = false;
         }
 
-        request.setAttribute("alert",alert);
+        request.setAttribute("alert", alert);
 
         return res;
     }
 
 
     private void deleteUser(User s) {
-		try {
+        try {
             DaoFactory.getInstance().createUserDao().delete(s);
         } catch (PersistException e) {
 
             e.printStackTrace();
         }
-		;
-	}
+        ;
+    }
 
-	private void saveUser(User user) {
-		if (user.getId() == 0){
+    private void saveUser(User user) {
+        if (user.getId() == 0) {
             //new
             try {
                 DaoFactory.getInstance().createUserDao().persist(user);
@@ -206,17 +235,17 @@ public class AppController extends HttpServlet {
                 e.printStackTrace();
             }
         }
-	}
+    }
 
-	private User extractUserFromRequest(HttpServletRequest request) {
-		User  user =new User();
-		user.setId(Integer.valueOf(request.getParameter("userId")));
-		user.setFirstName(request.getParameter("firstName"));
-		user.setLastName(request.getParameter("lastName"));
-		user.setPhone(request.getParameter("phone"));
-		user.setEmail(request.getParameter("email"));
-		return user;
-	}
+    private User extractUserFromRequest(HttpServletRequest request) {
+        User user = new User();
+        user.setId(Integer.valueOf(request.getParameter("userId")));
+        user.setFirstName(request.getParameter("firstName"));
+        user.setLastName(request.getParameter("lastName"));
+        user.setPhone(request.getParameter("phone"));
+        user.setEmail(request.getParameter("email"));
+        return user;
+    }
 
 
 }

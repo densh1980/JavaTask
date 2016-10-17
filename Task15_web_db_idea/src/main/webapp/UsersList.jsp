@@ -10,9 +10,10 @@
 </head>
 <body>
 
-<form action="<c:url value="/users"/>" method="POST" accept-charset="utf-8">
-    <div id="user-container">
-        <h2> List of  users </h2>
+
+<div id="user-container">
+    <form action="<c:url value="/users"/>" method="POST" accept-charset="utf-8">
+        <h2> List of users </h2>
         <table id="users-table">
             <tr>
                 <th></th>
@@ -26,16 +27,16 @@
 
                 <c:choose>
                     <c:when test="${st.index %2 == 0}">
-                        <c:set var="res" value="even" />
+                        <c:set var="res" value="even"/>
                     </c:when>
 
                     <c:otherwise>
-                        <c:set var="res" value="odd" />
+                        <c:set var="res" value="odd"/>
                     </c:otherwise>
                 </c:choose>
 
 
-                <tr class ="${res}">
+                <tr class="${res}">
                     <td><input type="radio" name="userId" value="${user.id}"></td>
                     <td><c:out value="${user.firstName}"/></td>
                     <td><c:out value="${user.lastName}"/></td>
@@ -53,8 +54,11 @@
 
             </tr>
         </table>
-    </div>
-</form>
+    </form>
+
+    <%@ include file="_FilterForm.jsp" %>
+</div>
+
 
 </body>
 </html>

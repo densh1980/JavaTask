@@ -34,22 +34,22 @@ public class MySqlDaoFactory extends DaoFactory {
         try{
             if( connection == null || connection.isClosed()  ){
 
-//                InputStream in = MySqlDaoFactory
-//                        .class.getResourceAsStream(DB_CONFIG_FILE_NAME);
-//                Properties props = new Properties();
-//                props.load(in);
-//                Class.forName("com.mysql.cj.jdbc.Driver");
-//                connection =  DriverManager
-//                        .getConnection( props.getProperty(DB_URL) ,
-//                                props.getProperty(DB_USER),
-//                                props.getProperty(DB_PASS));
-
-
+                InputStream in = MySqlDaoFactory
+                        .class.getResourceAsStream(DB_CONFIG_FILE_NAME);
+                Properties props = new Properties();
+                props.load(in);
                 Class.forName("com.mysql.jdbc.Driver");
-                Context envContex = new InitialContext();
-               // Context contex = (Context)envContex.lookup("java:/comp/env/jdbc/usersDB");
-                DataSource dataSource = (DataSource) envContex.lookup("java:/comp/env/jdbc/usersDB");
-                connection = dataSource.getConnection();
+                connection =  DriverManager
+                        .getConnection( props.getProperty(DB_URL) ,
+                                props.getProperty(DB_USER),
+                                props.getProperty(DB_PASS));
+
+
+//                Class.forName("com.mysql.jdbc.Driver");
+//                Context envContex = new InitialContext();
+//               // Context contex = (Context)envContex.lookup("java:/comp/env/jdbc/usersDB");
+//                DataSource dataSource = (DataSource) envContex.lookup("java:/comp/env/jdbc/usersDB");
+//                connection = dataSource.getConnection();
 
             }
             return;

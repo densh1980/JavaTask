@@ -2,8 +2,11 @@ package ua.epam.db.dao;
 
 
 
+import ua.epam.db.entities.User;
+
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * interface  for  DAO
@@ -31,4 +34,6 @@ public interface GenericDao<T> {
 
     /** get table from db */
     public List<T> getAll() throws PersistException;
+
+    public List<T> getBy(Map<String,String> params) throws PersistException;
 }
