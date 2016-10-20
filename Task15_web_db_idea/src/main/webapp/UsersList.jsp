@@ -51,6 +51,7 @@
                 <td><input type="submit" value="Add" name="command"/></td>
                 <td><input type="submit" value="Edit" name="command"/></td>
                 <td><input type="submit" value="Delete" name="command"/></td>
+                <td><a href="/main/users"><button>List All</button></a></td>
 
             </tr>
         </table>

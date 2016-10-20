@@ -2,11 +2,13 @@ package ua.epam.controller;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import ua.epam.JndiMock;
 import ua.epam.db.dao.DaoFactory;
 import ua.epam.db.dao.GenericDao;
 import ua.epam.db.dao.mysql.MySqlDaoFactory;
@@ -21,6 +23,13 @@ import static org.junit.Assert.*;
 
 
 public class AppControllerTest extends Mockito{
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        //setup the jndi context and the datasource
+        // define  test data table
+        JndiMock.setupTestJNDI();
+    }
+
     @Mock
     HttpServletRequest request;
     @Mock
@@ -40,7 +49,7 @@ public class AppControllerTest extends Mockito{
 
 
     @Test
-    public void addNewUserTest() throws Exception {
+    public void addNewUserServletTest() throws Exception {
 
         when(request.getParameter("command")).thenReturn("Add");
         when(request.getRequestDispatcher("/User.jsp")).thenReturn(rd);
@@ -57,11 +66,8 @@ public class AppControllerTest extends Mockito{
     }
 
     @Test
-    public void editUserTest() throws Exception {
+    public void editUserServletTest() throws Exception {
 
-        when(DaoFactory.getInstance()).thenReturn(dao);
-        when(dao.createUserDao()).thenReturn(userDao);
-        when(userDao.getById(1)).thenReturn(new User());
 
         when(request.getParameter("command")).thenReturn("Edit");
         when(request.getParameter("userId")).thenReturn("1");
@@ -69,7 +75,7 @@ public class AppControllerTest extends Mockito{
 
         AppController app = new AppController();
         app.doGet(request,response);
-       // verify(userDao.getAll());
+
         verify(request).setAttribute(eq("user"),any(User.class));
         verify(request).getRequestDispatcher("/User.jsp");
         verify(rd).forward(request,response);

@@ -52,6 +52,7 @@
 						</div> 
 						<div class="sbm-btn">
 							<input type="submit"  name="command" value="Save" />
+							<td><a href="/main/users"><button> Return </button></a></td>
 						</div>
 		</div>
 	</form>

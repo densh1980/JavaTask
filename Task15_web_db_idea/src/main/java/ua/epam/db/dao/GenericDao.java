@@ -34,6 +34,6 @@ public interface GenericDao<T> {
 
     /** get table from db */
     public List<T> getAll() throws PersistException;
-
+    /** get table  from db by params <key,value> map */
     public List<T> getBy(Map<String,String> params) throws PersistException;
 }

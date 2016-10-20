@@ -1,1 +1,0 @@
-http://java-course.ru/student/book1/simple-web/

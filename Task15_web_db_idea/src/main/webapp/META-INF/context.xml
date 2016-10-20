@@ -7,7 +7,7 @@
             maxWait="5000"
             name="jdbc/usersDB"
             username="root"
-            password="toor"
+            password="atoll+"
             type="javax.sql.DataSource"
             url="jdbc:mysql://localhost:3306/users_db"
             validationQuery="SELECT 1">

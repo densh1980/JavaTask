@@ -19,6 +19,7 @@
             <label for="em-filter">Email: </label>
             <input type="text" name="email" value="${userSearchPattern.email}" id="em-filter">
         </div>
+        <span style="float:right;color:red">  use '*' wildcard charaster </span>
     </fieldset>
     <div class="sbm-btn">
         <input type="submit" name="command" value="Filter"/>
